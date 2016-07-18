@@ -105,7 +105,7 @@ if (isset($authUrl)){ ?>
  <?php
    $user = $service->userinfo->get(); //get user info 
     
-  $userId = $user->id;
+  $gmailuserId = $user->id;
   $userEmail = $user->email;
   
    $sql_select = "select * from `users_gmail_accountinfo` where `user_gmail_email`='".$userEmail."'";
@@ -121,13 +121,14 @@ if (isset($authUrl)){ ?>
 			  
 			<?php }else{
 				
-  $sql_user_insert = "insert into `users_gmail_accountinfo`(`user_gmail_id`, `user_gmail_email`) values ('".$userId."','".$userEmail."')";
+  $sql_user_insert = "insert into `users_gmail_accountinfo`(`user_gmail_id`, `user_gmail_email`) values ('".$gmailuserId."','".$userEmail."')";
 		 	
   $selected_record = $conn->query($sql_user_insert);
   
   echo 'Go back by clicking below close button </br></br>';  ?>
   
   <button type="button" name="submit" id="retunrbtn" onclick="RefreshParent();">Close</button>
+  
   
 	<?php   }
 	  
@@ -136,15 +137,20 @@ if (isset($authUrl)){ ?>
 </div>
 
 
- 
- 
- <script type="text/javascript">
-        function RefreshParent() {
-            if (window.opener != null && !window.opener.closed) {
-                window.opener.location.reload();
-				 window.close();
-            }
-        }
+
+<script type="text/javascript">
+function RefreshParent() {
+   if (window.opener != null && !window.opener.closed) {
+	   var newuserid = <?php echo $gmailuserId; ?>;
+	   var newurl = "http://localhost:8771/newmails/pages/mailbox/mailbox.php?userid="+newuserid;
+	   window.opener.location.href = newurl;
+	   
+      // window.opener.location.reload();
+	   //$("#returnmails",opener.document).text('dataa');
+	   window.close();
+    }
+	
+}
        
 		
 </script>
@@ -167,3 +173,12 @@ body{
 }
 
 </style>
+
+<?php
+$conn->close();
+require_once ('footer.php');
+?>
+ 
+
+
+

@@ -61,11 +61,6 @@ $servicegmail = new Google_Service_Gmail($client);
   bundle in the session, and redirect to ourself.
 */
 
-
-
- 
- 
- 
   
 if (isset($_GET['code'])) {
   $client->authenticate($_GET['code']);
@@ -105,6 +100,8 @@ if (isset($authUrl)){ ?>
      
   
  $userId = $user->id;
+ 
+ 
   
    $pageToken = NULL;
   $messages = array();
