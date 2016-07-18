@@ -209,7 +209,8 @@ if (!$conn) {
                 <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
                
               </div>
-              <div class="table-responsive mailbox-messages">
+              <div class="table-responsive mailbox-messages" id="returnmails">
+                
                 <?php /*<table class="table table-hover table-striped">
                   <tbody id="mail_list"> 
                   </tbody>
@@ -218,11 +219,11 @@ if (!$conn) {
                 
 				<?php 
 				
-				//echo 'userid=='.$_SESSION['user_id']; 
+				 if(isset($_GET['userid'])) 
+				 {
 				
-				 
-				// require_once ('gmail_authendicated_allmails.php');
-				
+				require_once ('gmail_authendicated_allmails.php');
+				 }
 				?>
                 
 				
