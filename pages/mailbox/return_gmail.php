@@ -73,7 +73,7 @@ $servicegmail = new Google_Service_Gmail($client);
   bundle in the session, and redirect to ourself.
 */
 
-echo 'data';
+
  
 if (isset($_GET['code'])) {
   $client->authenticate($_GET['code']);
@@ -96,115 +96,47 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 }
 
 if (isset($authUrl)){ ?>
-
   
  <?php /* <a href="<?php echo $authUrl; ?>" class="newlink">Link Account</a>*/ ?>  
-  <?php }  else { 
- 
-   $user = $service->userinfo->get(); //get user info 
-
- 
-     
+  <?php }  else {  ?>
   
+  
+ <div class="returngmailcls">
+ <?php
+   $user = $service->userinfo->get(); //get user info 
+    
   $userId = $user->id;
   $userEmail = $user->email;
   
-  $sql_user_insert = "insert into `amp_users_information`(`user_firstname`, `user_email`, `user_password`,`user_registered_date`) values ('".$user_firstname."','".$user_email."','".$user_password."','".$user_registered_date."')";
-		 	
-//$selected_record = $conn->query($sql_user_insert);
+   $sql_select = "select * from `users_gmail_accountinfo` where `user_gmail_email`='".$userEmail."'";
+  $selected_record = $conn->query($sql_select);
   
-  
+   if ($selected_record->num_rows > 0) {  
    
-   /*$pageToken = NULL;
-  $messages = array();
-  $opt_param = array();
-  do {
-    try {
-      if ($pageToken) {
-        $opt_param['pageToken'] = $pageToken;
-      }
-      $messagesResponse = $servicegmail->users_messages->listUsersMessages($userId, $opt_param);
-	  
-	    
-      if ($messagesResponse->getMessages()) {
-        $messages = array_merge($messages, $messagesResponse->getMessages());
-        $pageToken = $messagesResponse->getNextPageToken();
-      }
-    } catch (Exception $e) {
-      print 'An error occurred: ' . $e->getMessage();
-    }
-  } while ($pageToken);
-
-   $count=1; 
-?> 
- <table class="table table-hover table-striped">
-                  <tbody id="mail_list">
-  <?php 
-  foreach ($messages as $message) {
-	 
- 	 $messageId = $message->getId();
-    // echo  '<br/>'.$count.')  Message with ID: ' .$messageId  . '<br/><br/>';
-	 
-	   $inboxMessage = array();
-	    $optParamsGet = array();
-        $optParamsGet['format'] = 'full'; // Display message in payload
-        $message = $servicegmail->users_messages->get('me',$messageId,$optParamsGet);
-	
-		 
-		 $headers = $message->getPayload()->getHeaders();
-        $snippet = $message->getSnippet(); 
-		
-		 foreach($headers as $single) {
-
-            if ($single->getName() == 'Subject') {
-
-                $message_subject = $single->getValue();
-
-            }
-
-            else if ($single->getName() == 'Date') {
-
-                
-             
-				date_default_timezone_set('Africa/Lagos');
-				$date = $single->getValue();
-				$month = substr(date('F', strtotime($date)), 0,3); 
-		        $day = date('d', strtotime($date));
+   
+    echo 'Go back by clicking below close button </br></br>';
+      ?>
+		  
+		 <button type="button" name="submit" id="retunrbtn" onclick="RefreshParent();">Close</button>
+			  
+			<?php }else{
 				
-				$message_date = $month .' '.$day;
-				
-            }
-
-            else if ($single->getName() == 'From') {
-
-                $message_sender = $single->getValue();
-                $message_sender = str_replace('"', '', $message_sender);
-            }
-        }
-  ?>
-		 
-		      <tr <?php  echo  $messageId;  ?>>
-              <td><input type="checkbox"></td>
-              <td class="mailbox-name"> <?php echo $message_sender; ?></td>
-                <?php    //echo $snippet;  ?>
-              <td class="mailbox-subject">  <?php   echo $message_subject; ?></td>
-             <td class="mailbox-date"> <?php  echo $message_date; ?></td>
- 		  </tr> 
-          
-	<?php	 
-	  $count++;
-  }
-   ?>
-   </tbody>
-  </table>
+  $sql_user_insert = "insert into `users_gmail_accountinfo`(`user_gmail_id`, `user_gmail_email`) values ('".$userId."','".$userEmail."')";
+		 	
+  $selected_record = $conn->query($sql_user_insert);
   
-  */ ?>
-<?php }?>
+  echo 'Go back by clicking below close button </br></br>';  ?>
+  
+  <button type="button" name="submit" id="retunrbtn" onclick="RefreshParent();">Close</button>
+  
+	<?php   }
+	  
+   }?>
+
+</div>
 
 
-
-
- <button type="button" name="submit" id="retunrbtn" onclick="RefreshParent();">Close</button>
+ 
  
  <script type="text/javascript">
         function RefreshParent() {
@@ -217,6 +149,15 @@ if (isset($authUrl)){ ?>
 		
 </script>
 <style>
+body{
+   background: #d2d6de;	
+}
+.returngmailcls{
+	width:400px;
+	margin:0 auto;
+	padding: 100px 20px;
+    font-size: 18px;
+}
 #retunrbtn{
     background-color: #3c8dbc;
     border-color: #367fa9; 
@@ -224,4 +165,5 @@ if (isset($authUrl)){ ?>
 	color:#fff;
 	border:none;
 }
+
 </style>
