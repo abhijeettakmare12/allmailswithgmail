@@ -114,8 +114,6 @@ if (!$conn) {
     </nav>
   </header>
   
- 
-   
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -162,8 +160,6 @@ if (!$conn) {
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Mailbox</li>
     
-       
-       
          <li>  <?php 
 		 
 		       if(!isset($_GET['code']))
@@ -171,7 +167,6 @@ if (!$conn) {
 		     require_once ('gmail_authendicate_link.php'); 
 			 
 			   }?> </li>
-         
          
       </ol>
        
